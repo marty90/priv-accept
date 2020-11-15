@@ -51,6 +51,7 @@ def main():
         options.add_experimental_option('prefs', {'intl.accept_languages': lang})
     if headless:
         options.headless = True
+        options.add_argument("window-size=1920,1080")
     driver = webdriver.Chrome(executable_path=chrome_driver, desired_capabilities=d, options=options)
 
     #  Go to the page, first visit
@@ -66,7 +67,7 @@ def main():
     # Click Banner
     log("Clicking Banner")
     banner_data = click_banner(driver)
-    if banner_data["matched_containers"] == [] and try_scroll:
+    if not "clicked_element" in banner_data and try_scroll:
         log("Trying with scroll")
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     time.sleep(timeout)

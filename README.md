@@ -27,18 +27,20 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
                     [--selectors SELECTORS] [--accept_words ACCEPT_WORDS]
                     [--chrome_driver CHROME_DRIVER]
                     [--screenshot_dir SCREENSHOT_DIR] [--lang LANG]
-                    [--timeout TIMEOUT] [--clear_cache] [--try_scroll]
+                    [--timeout TIMEOUT] [--clear_cache] [--headless]
+                    [--try_scroll]
 ```
 
 * `url`: the url to visit
 * `outfile`: the output file with the stats in JSON
-* `selectors`: the list of selectors, in the [Adblock list format](https://help.eyeo.com/adblockplus/how-to-write-filters)
+* `selectors`: the list of selectors, in the [Adblock list format](https://help.eyeo.com/adblockplus/how-to-write-filters). By default, is uses the provided file
 * `accept_words`: a file with the expressions that indicate cookie acceptance
-* `chrome_driver`: the path to chrome_driver in your machine
+* `chrome_driver`: the path to chrome_driver in your machine. By default, is searches on the local dir
 * `screenshot_dir`: where to save some useful screenshot
 * `lang`: the language to set. It can affect the Cookie Banner content
 * `timeout`: the timeout to wait for extra-traffic after the onLoad events
 * `clear_cache`: clear the cache after the first visit
+* `headless`: run Chrome in headless mode
 * `try_scroll`: try to scroll the page if no banner is found
 
 

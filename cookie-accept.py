@@ -26,6 +26,7 @@ parser.add_argument('--screenshot_dir', type=str, default=None)
 parser.add_argument('--lang', type=str, default=None)
 parser.add_argument('--timeout', type=int, default=5)
 parser.add_argument('--clear_cache', action='store_true')
+parser.add_argument('--headless', action='store_true')
 parser.add_argument('--try_scroll', action='store_true')
 globals().update(vars(parser.parse_args()))
 
@@ -48,6 +49,8 @@ def main():
     options = Options()
     if lang is not None:
         options.add_experimental_option('prefs', {'intl.accept_languages': lang})
+    if headless:
+        options.headless = True
     driver = webdriver.Chrome(executable_path=chrome_driver, desired_capabilities=d, options=options)
 
     #  Go to the page, first visit

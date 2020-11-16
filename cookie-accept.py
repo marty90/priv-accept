@@ -180,7 +180,6 @@ def click_banner(driver):
             btns.append(c)
 
     for c in btns:
-        print(c.text.lower())
         if c.text.lower() in accept_words_list:
             candidate  = c
             banner_data["candidate_elements"].append({  "id": c.id,

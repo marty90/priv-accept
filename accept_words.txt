@@ -2,10 +2,14 @@ accetto
 accetta
 ok
 permetti cookies
+permetti cookie
 agree
-conento
+consento
 permetto
 accepter
 accept
 yes, i’m happy
 si, accetto
+accetta cookies
+accetta cookie
+acconsento

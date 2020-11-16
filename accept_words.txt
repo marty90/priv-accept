@@ -13,3 +13,4 @@ si, accetto
 accetta cookies
 accetta cookie
 acconsento
+accetta e chiudi

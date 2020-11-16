@@ -8,3 +8,4 @@ permetto
 accepter
 accept
 yes, i’m happy
+si, accetto

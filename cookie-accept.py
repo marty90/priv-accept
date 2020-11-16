@@ -152,14 +152,16 @@ def click_banner(driver):
         return banner_data
 
     if len(contents) > 1:
-        log("Warning, more than a cookie banner detected. Using the first.")
+        log("Warning, more than a cookie banner detected.")
 
     candidate = None
 
     # Try Links, add the element itself in case
-    links = contents[0].find_elements_by_tag_name("a")
-    if contents[0].tag_name  == "a":
-        links.append(contents[0])
+    links = []
+    for c in contents:
+        links += c.find_elements_by_tag_name("a")
+        if c.tag_name  == "a":
+            links.append(c)
 
     for c in links:
         if c.text.lower() in accept_words_list:
@@ -171,11 +173,14 @@ def click_banner(driver):
                                                         })
 
     # Try buttons, add the element itself in case
-    btns = contents[0].find_elements_by_tag_name("button")
-    if contents[0].tag_name  == "button":
-        btns.append(contents[0])
+    btns = []
+    for c in contents:
+        btns += c.find_elements_by_tag_name("button")
+        if c.tag_name  == "button":
+            btns.append(c)
 
     for c in btns:
+        print(c.text.lower())
         if c.text.lower() in accept_words_list:
             candidate  = c
             banner_data["candidate_elements"].append({  "id": c.id,

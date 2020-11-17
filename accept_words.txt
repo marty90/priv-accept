@@ -1,16 +1,37 @@
+# International
+ok
+# Italian
 accetto
 accetta
-ok
+accetto cookies
+accetta cookie
+accetta tutti i cookie
+accetto cookies
+accetta cookie
+accetta tutti
+accetto tutti
+acconsento
+acconsenti
+consento
+consenti
+permetto
+permetti
 permetti cookies
 permetti cookie
-agree
-consento
-permetto
-accepter
-accept
-yes, i’m happy
+permetto cookies
+permetto cookie
 si, accetto
-accetta cookies
-accetta cookie
-acconsento
 accetta e chiudi
+# French
+accepter
+# English
+accept
+accept all
+accept all cookies
+allow
+allow all
+allow all cookies
+agree
+agree all
+i agree
+yes, i’m happy

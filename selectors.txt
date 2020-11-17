@@ -20999,3 +20999,13 @@ zwischengas.com##.datafooter
 ~xsports.lv##.notice-cookie:not(body):not(html)
 ~yello.de##.js-cookie-consent:not(body):not(html):not(.in):not(.btn)
 ~zwijsen.nl##.cookie-consent-container
+
+! OTHER SELECTOR
+###__cmp_body
+###cl-consent
+###gdpr-consent-notice
+##.action-buttons
+##.ConsentManager__Overlay-np32r2-0.jqreSC
+##.message.type-modal
+
+

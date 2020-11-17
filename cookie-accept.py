@@ -192,8 +192,11 @@ def click_banner(driver):
                                                         })
     # Click the candidate
     if candidate is not None:
-        candidate.click()
-        banner_data["clicked_element"] = candidate.id
+        try: # in some pages element is not clickable
+            candidate.click()
+            banner_data["clicked_element"] = candidate.id
+        except:
+            pass
     else:
         log("Warning, no matching candidate")
 

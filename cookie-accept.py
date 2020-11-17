@@ -125,7 +125,10 @@ def click_banner(driver):
 
     selectors_css = parse_rules(selectors, urlparse(driver.current_url).netloc)
 
-    accept_words_list = open(accept_words, "r").read().splitlines()
+    accept_words_list = []
+    for w in open(accept_words, "r").read().splitlines():
+        if not w.startswith("#") and not w == "":
+            accept_words_list.append(w)
 
     banner_data = {"matched_containers": [], "candidate_elements": []}
     contents = driver.find_elements_by_css_selector(selectors_css)

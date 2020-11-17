@@ -8,12 +8,17 @@ accetta cookie
 accetta tutti i cookie
 accetto cookies
 accetta cookie
+accetta e chiudi
+accetta tutte
 accetta tutti
 accetto tutti
+accetta tutto
 acconsento
 acconsenti
 consento
 consenti
+d'accordo
+d’accordo
 permetto
 permetti
 permetti cookies
@@ -24,6 +29,7 @@ si, accetto
 accetta e chiudi
 # French
 accepter
+j'accepte
 # English
 accept
 accept all
@@ -33,5 +39,12 @@ allow all
 allow all cookies
 agree
 agree all
+continue
+continue to site
+happy to accept cookies
 i agree
+i'm fine with this
 yes, i’m happy
+# Spanish
+aceptar todas las cookies
+de acuerdo & cerrar

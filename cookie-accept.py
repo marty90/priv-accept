@@ -136,6 +136,8 @@ def clear_status():
         driver.find_element_by_id("sockets-view-flush-button").click()
         driver.get("chrome://net-internals/#dns")
         driver.find_element_by_id("dns-view-clear-cache").click()
+    else:
+        log("Warning: cannot clean DNS and socket cache in headless mode.")
 
 
 def get_data(driver):

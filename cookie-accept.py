@@ -131,10 +131,12 @@ def main():
 
 def clear_status():
     driver.execute_cdp_cmd('Network.clearBrowserCache', {})
-    driver.get("chrome://net-internals/#sockets")
-    driver.find_element_by_id("sockets-view-flush-button").click()
-    driver.get("chrome://net-internals/#dns")
-    driver.find_element_by_id("dns-view-clear-cache").click()    
+    if not headless:
+        driver.get("chrome://net-internals/#sockets")
+        driver.find_element_by_id("sockets-view-flush-button").click()
+        driver.get("chrome://net-internals/#dns")
+        driver.find_element_by_id("dns-view-clear-cache").click()
+
 
 def get_data(driver):
 

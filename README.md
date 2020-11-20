@@ -41,7 +41,7 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 * `lang`: the language to set. It can affect the Cookie Banner content
 * `timeout`: the timeout to wait for extra-traffic after the onLoad events
 * `clear_cache`: clear the cache after the first visit
-* `headless`: run Chrome in headless mode
+* `headless`: run Chrome in headless mode. Note: in headless mode, the `clear_cache` cannot clean the DNS and socket cache due to limitations of Chrome
 * `try_scroll`: try to scroll the page if no banner is found
 * `global_search`: search accept words in the whole document
 * `full_net_log`: store in the output file the details of the requests/responses

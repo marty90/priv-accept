@@ -28,7 +28,8 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
                     [--chrome_driver CHROME_DRIVER]
                     [--screenshot_dir SCREENSHOT_DIR] [--lang LANG]
                     [--timeout TIMEOUT] [--clear_cache] [--headless]
-                    [--try_scroll]
+                    [--try_scroll] [--global_search] [--full_net_log]
+                    [--pre_visit]
 ```
 
 * `url`: the url to visit
@@ -42,13 +43,16 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 * `clear_cache`: clear the cache after the first visit
 * `headless`: run Chrome in headless mode
 * `try_scroll`: try to scroll the page if no banner is found
+* `global_search`: search accept words in the whole document
+* `full_net_log`: store in the output file the details of the requests/responses
+* `pre_visit`: make all visits as "second visits", so with cache e open sockets
 
 
 ### Output
 
 The main output is a JSON file with various statistics, including all the HTTP requests fired at each stage, the cookies that are installed and some information about the found banners.
 
-Moreover, it stores screenshots of the page and of the cookie banners found.
+Moreover, it stores screenshots of the page and of the cookie banners found as well as the clicked element.
 
 
 

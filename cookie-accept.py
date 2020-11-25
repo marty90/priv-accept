@@ -37,8 +37,8 @@ log_entries = []
 GLOBAL_SELECTOR = "a, button"
 stats = {}
 
-def main():
 
+def main():
     global driver
     global url
 
@@ -49,7 +49,7 @@ def main():
     # Enable browser logging and start driver
     log("Starting Driver")
     d = DesiredCapabilities.CHROME
-    #d['loggingPrefs'] = { 'performance':'ALL' }
+    # d['loggingPrefs'] = { 'performance':'ALL' }
     d['goog:loggingPrefs'] = {'performance': 'ALL'}
     options = Options()
     stats["lang"] = "default"
@@ -72,6 +72,7 @@ def main():
     log("Making First Visit to: {}".format(url))
     stats["target"] = url
     stats["start-time"] = time.time()
+
     start_time=time.time()
     driver.get(url)
     end_time=time.time()
@@ -87,6 +88,15 @@ def main():
     # Click Banner
     log("Clicking Banner")
     banner_data = click_banner(driver)
+
+    if not "clicked_element" in banner_data:
+        iframe_contents = driver.find_elements_by_css_selector("iframe")
+        for content in iframe_contents:
+            driver.switch_to.frame(content)
+            banner_data = click_banner(driver)
+            driver.switch_to.default_content()
+            if "clicked_element" in banner_data:
+                break
     stats["has-scrolled"] = False
     if not "clicked_element" in banner_data and try_scroll:
         log("Trying with scroll")
@@ -110,6 +120,7 @@ def main():
     _ = get_data(driver)
     if pre_visit:
         driver.get(url)
+
     start_time=time.time()
     driver.get(url)
     end_time=time.time()
@@ -128,6 +139,7 @@ def main():
     # Quit
     driver.quit()
     log("All Done")
+
 
 def clear_status():
     driver.execute_cdp_cmd('Network.clearBrowserCache', {})
@@ -166,8 +178,8 @@ def get_data(driver):
 
     return data
 
-def make_screenshot(path):
 
+def make_screenshot(path):
     if screenshot_dir is not None:
         if not os.path.exists(screenshot_dir):
             os.makedirs(screenshot_dir)
@@ -175,6 +187,7 @@ def make_screenshot(path):
             driver.save_screenshot(path)
         except Exception as e:
             log("Exception in making screenshot: {}".format(e))
+
 
 def click_banner(driver):
 
@@ -190,66 +203,77 @@ def click_banner(driver):
     else:
         selectors_css = parse_rules(selectors, urlparse(driver.current_url).netloc)
         contents = driver.find_elements_by_css_selector(selectors_css)
-
-    for i, c in enumerate(contents):
-        banner_data["matched_containers"].append({  "id": c.id,
-                                                    "tag_name": c.tag_name,
-                                                    "text": c.text,
-                                                    "size": c.size,
-                                                    "selected": True if i==0 else False,
-                                                    })
-
-        if screenshot_dir is not None and not global_search:
-            if not os.path.exists(screenshot_dir):
-                os.makedirs(screenshot_dir)
-            try:
-                c.screenshot("{}/matched-container-{}.png".format(screenshot_dir,i))
-            except Exception as e:
-                log("Exception in making screenshot: {}".format(e))
-
     if len(contents) == 0:
         log("Warning, no banner found")
         return banner_data
 
     if len(contents) > 1:
         log("Warning, more than a cookie banner detected.")
-
     candidate = None
 
-    # Try Links, add the element itself in case
-    links = []
-    for c in contents:
-        links += c.find_elements_by_tag_name("a")
-        if c.tag_name  == "a":
-            links.append(c)
+    if not global_search:
+        for i, c in enumerate(contents):
+            banner_data["matched_containers"].append({"id": c.id,
+                                                      "tag_name": c.tag_name,
+                                                      "text": c.text,
+                                                      "size": c.size,
+                                                      "selected": True if i == 0 else False,
+                                                      })
 
-    for c in links:
-        if c.text.lower() in accept_words_list:
-            candidate = c
-            banner_data["candidate_elements"].append({  "id": c.id,
-                                                        "tag_name": c.tag_name,
-                                                        "text": c.text,
-                                                        "size": c.size,
-                                                        })
+            if screenshot_dir is not None:
+                if not os.path.exists(screenshot_dir):
+                    os.makedirs(screenshot_dir)
+                try:
+                    c.screenshot("{}/matched-container-{}.png".format(screenshot_dir, i))
+                except Exception as e:
+                    log("Exception in making screenshot: {}".format(e))
 
-    # Try buttons, add the element itself in case
-    btns = []
-    for c in contents:
-        btns += c.find_elements_by_tag_name("button")
-        if c.tag_name  == "button":
-            btns.append(c)
 
-    for c in btns:
-        if c.text.lower() in accept_words_list:
-            candidate  = c
-            banner_data["candidate_elements"].append({  "id": c.id,
-                                                        "tag_name": c.tag_name,
-                                                        "text": c.text,
-                                                        "size": c.size,
-                                                        })
+        # Try Links, add the element itself in case
+        links = []
+        for c in contents:
+            links += c.find_elements_by_tag_name("a")
+            if c.tag_name == "a":
+                links.append(c)
+
+        for c in links:
+            if c.text.lower().strip(" ✓›!") in accept_words_list:
+                candidate = c
+                banner_data["candidate_elements"].append({"id": c.id,
+                                                          "tag_name": c.tag_name,
+                                                          "text": c.text,
+                                                          "size": c.size,
+                                                          })
+
+        # Try buttons, add the element itself in case
+        btns = []
+        for c in contents:
+            btns += c.find_elements_by_tag_name("button")
+            if c.tag_name == "button":
+                btns.append(c)
+
+        for c in btns:
+            if c.text.lower().strip(" ✓›!") in accept_words_list:
+                candidate = c
+                banner_data["candidate_elements"].append({"id": c.id,
+                                                          "tag_name": c.tag_name,
+                                                          "text": c.text,
+                                                          "size": c.size,
+                                                          })
+    else:
+        for c in contents:
+            if c.text.lower().strip(" ✓›!") in accept_words_list:
+                candidate = c
+                banner_data["candidate_elements"].append({"id": c.id,
+                                                          "tag_name": c.tag_name,
+                                                          "text": c.text,
+                                                          "size": c.size,
+                                                          })
+                break
     # Click the candidate
     if candidate is not None:
         try: # in some pages element is not clickable
+
 
             if screenshot_dir is not None:
                 if not os.path.exists(screenshot_dir):
@@ -271,31 +295,31 @@ def click_banner(driver):
 
 def match_domains(domain, match):
     labels_domains = domain.strip(".").split(".")
-    labels_match   = match.strip(".").split(".")
+    labels_match = match.strip(".").split(".")
     return labels_match == labels_domains[-len(labels_match):]
 
+
 def parse_rules(file_name, target_domain=""):
-    
     selectors = []
     for line in open(file_name, "r").read().splitlines():
 
         if not line.startswith("!") and "##" in line:
 
-            selector = re.search("(?<=##).+$",  line).group(0)
+            selector = re.search("(?<=##).+$", line).group(0)
 
-            domain_rules = re.search("^[a-zA-Z0-9-\\.~,]+(?=##)",  line)
-                        
+            domain_rules = re.search("^[a-zA-Z0-9-\\.~,]+(?=##)", line)
+
             if domain_rules is not None:
                 domains = domain_rules.group(0).split(",")
-                found_positive=False
-                found_negative=False
+                found_positive = False
+                found_negative = False
 
                 for domain in domains:
-                    if domain.startswith("~") and match_domains(target_domain, domain[1:] ):
+                    if domain.startswith("~") and match_domains(target_domain, domain[1:]):
                         found_negative = True
                     elif match_domains(target_domain, domain):
                         found_positive = True
-                        
+
                 if found_positive and not found_negative:
                     selectors.append(selector)
 
@@ -304,9 +328,11 @@ def parse_rules(file_name, target_domain=""):
 
     return ", ".join(selectors)
 
+
 def log(str):
     print(datetime.now().strftime("[%Y-%m-%d %H:%M:%S]"), str)
-    log_entries.append( (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), str) )
+    log_entries.append((datetime.now().strftime("%Y-%m-%d %H:%M:%S"), str))
+
 
 if __name__ == "__main__":
 
@@ -317,5 +343,3 @@ if __name__ == "__main__":
         log("Exception at line {}: {}".format(exc_tb.tb_lineno, e))
         log("Quitting")
         driver.quit()
-
-

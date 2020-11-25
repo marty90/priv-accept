@@ -72,22 +72,23 @@ def main():
     log("Making First Visit to: {}".format(url))
     stats["target"] = url
     stats["start-time"] = time.time()
-    start_time = time.time()
+
+    start_time=time.time()
     driver.get(url)
-    end_time = time.time()
-    log("First Visit Selenium time [s]: {}".format(end_time - start_time))
-    stats["first-visit-selenium-time"] = end_time - start_time
+    end_time=time.time()
+    log("First Visit Selenium time [s]: {}".format(end_time-start_time))
+    stats["first-visit-selenium-time"] = end_time-start_time
     log("Landed to: {}".format(driver.current_url))
     stats["first-visit-landing-page"] = driver.current_url
     time.sleep(timeout)
-    stats["first-visit-timings"] = driver.execute_script(
-        "var performance = window.performance || {}; var timings = performance.timing || {}; return timings;")
+    stats["first-visit-timings"] = driver.execute_script("var performance = window.performance || {}; var timings = performance.timing || {}; return timings;")
     before_data = get_data(driver)
     make_screenshot("{}/all-first.png".format(screenshot_dir))
 
     # Click Banner
     log("Clicking Banner")
     banner_data = click_banner(driver)
+
     if not "clicked_element" in banner_data:
         iframe_contents = driver.find_elements_by_css_selector("iframe")
         for content in iframe_contents:
@@ -119,14 +120,14 @@ def main():
     _ = get_data(driver)
     if pre_visit:
         driver.get(url)
-    start_time = time.time()
+
+    start_time=time.time()
     driver.get(url)
-    end_time = time.time()
-    log("Second Visit Selenium time [s]: {}".format(end_time - start_time))
-    stats["second-visit-selenium-time"] = end_time - start_time
+    end_time=time.time()
+    log("Second Visit Selenium time [s]: {}".format(end_time-start_time))
+    stats["second-visit-selenium-time"] = end_time-start_time
     time.sleep(timeout)
-    stats["second-visit-timings"] = driver.execute_script(
-        "var performance = window.performance || {}; var timings = performance.timing || {}; return timings;")
+    stats["second-visit-timings"] = driver.execute_script("var performance = window.performance || {}; var timings = performance.timing || {}; return timings;")
     after_data = get_data(driver)
     make_screenshot("{}/all-second.png".format(screenshot_dir))
 
@@ -141,6 +142,7 @@ def main():
 
 
 def clear_status():
+    driver.execute_cdp_cmd('Network.clearBrowserCache', {})
     if not headless:
         driver.get("chrome://net-internals/#sockets")
         driver.find_element_by_id("sockets-view-flush-button").click()
@@ -151,12 +153,13 @@ def clear_status():
 
 
 def get_data(driver):
-    # data = {"urls": [],"cookies": driver.get_cookies()}  # Worse than next line
+
+    #data = {"urls": [],"cookies": driver.get_cookies()}  # Worse than next line
     if full_net_log:
-        data = {"requests": [], "responses": [],
+        data = { "requests": [], "responses": [],
                 "cookies": driver.execute_cdp_cmd('Network.getAllCookies', {})}
     else:
-        data = {"urls": [],
+        data = { "urls": [],
                 "cookies": driver.execute_cdp_cmd('Network.getAllCookies', {})}
 
     log = driver.get_log('performance')
@@ -187,6 +190,7 @@ def make_screenshot(path):
 
 
 def click_banner(driver):
+
     accept_words_list = []
     for w in open(accept_words, "r").read().splitlines():
         if not w.startswith("#") and not w == "":
@@ -268,7 +272,8 @@ def click_banner(driver):
                 break
     # Click the candidate
     if candidate is not None:
-        try:  # in some pages element is not clickable
+        try: # in some pages element is not clickable
+
 
             if screenshot_dir is not None:
                 if not os.path.exists(screenshot_dir):

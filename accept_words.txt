@@ -1,50 +1,122 @@
-# International
+#international
 ok
+okay
 # Italian
+Accetto
+abilita tutto
 accetto
 accetta
+accettare
+accetta e procedi
 accetto cookies
 accetta cookie
+accetta i cookie
 accetta tutti i cookie
 accetto cookies
+accetto i cookies
 accetta cookie
 accetta e chiudi
+chiudi
 accetta tutte
 accetta tutti
 accetto tutti
+accetto tutto
+accetto tutto e chiudi
+accetto tutti i cookie
 accetta tutto
+accetta tutto e visita il sito
 acconsento
 acconsenti
 consento
 consenti
 d'accordo
 d’accordo
+dai il consenso e accedi al sito
 permetto
 permetti
 permetti cookies
 permetti cookie
 permetto cookies
 permetto cookie
+si
+sì
 si, accetto
-accetta e chiudi
+ok, accetto
+ok, capito
+ok, grazie
+ho capito
 # French
 accepter
+accepter & fermer
+accepter et fermer
+accpter et fermer
+accepter et poursuivre
+autoriser tous les cookies
 j'accepte
+j’ai compris
+j'ai compris
+oui
+oui, j'accepts
+tout accepter
 # English
+agree & exit
+agree & continue
+agree & close
+agree and proceed
 accept
+accept cookies
 accept all
 accept all cookies
+accept and close
+accept and continue
+accept & continue
+accept & close
 allow
 allow all
 allow all cookies
+allow cookies
 agree
 agree all
 continue
 continue to site
+confirm
+fine by me
+fine by me, i accept
 happy to accept cookies
+i accept cookies
+i accept
 i agree
 i'm fine with this
+i'm ok with that
 yes, i’m happy
+yes, i agree
+yes, i accept
+got it
+select all
 # Spanish
+aceptar
 aceptar todas las cookies
+aceptar todas
+aceitar todos
+aceptar y cerrar
+aceitar y prosseguir
 de acuerdo & cerrar
+prosseguir
+# German
+akzeptieren
+akzeptieren und fortfahren
+akzeptieren & schließen
+akzeptieren und schließen
+alle akzeptieren
+alle zulassen
+alles akzeptieren
+cookies akzeptieren
+einverstanden
+erlauben
+fortfahren
+zustimmen und weiter
+zustimmen
+# russian
+cогласен
+Я согласен
+Принять

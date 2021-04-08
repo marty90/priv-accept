@@ -2,7 +2,7 @@
 
 Accept automatically the Cookie Warnings to allow automated measurements on web tracking.
 It visits a URL and uses a heuristic to find the Cookie Banner and allow cookies.
-It is based on the [I DON'T CARE ABOUT COOKIES 3.2.4](https://www.i-dont-care-about-cookies.eu/) CSS selectors and a set of keywords to find the right button/link.
+It is based on a set of keywords to find the right button/link.
 
 Given a website, the tool accomplishes these tasks:
 
@@ -34,7 +34,6 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 
 * `url`: the url to visit
 * `outfile`: the output file with the stats in JSON
-* `selectors`: the list of selectors, in the [Adblock list format](https://help.eyeo.com/adblockplus/how-to-write-filters). By default, is uses the provided file
 * `accept_words`: a file with the expressions that indicate cookie acceptance
 * `chrome_driver`: the path to chrome_driver in your machine. By default, is searches on the local dir
 * `screenshot_dir`: where to save some useful screenshot
@@ -43,7 +42,6 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 * `clear_cache`: clear the cache after the first visit
 * `headless`: run Chrome in headless mode. Note: in headless mode, the `clear_cache` cannot clean the DNS and socket cache due to limitations of Chrome
 * `try_scroll`: try to scroll the page if no banner is found
-* `global_search`: search accept words in the whole document
 * `full_net_log`: store in the output file the details of the requests/responses
 * `pre_visit`: make all visits as "second visits", so with cache e open sockets
 

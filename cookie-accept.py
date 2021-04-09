@@ -25,6 +25,7 @@ parser.add_argument('--lang', type=str, default=None)
 parser.add_argument('--timeout', type=int, default=5)
 parser.add_argument('--clear_cache', action='store_true')
 parser.add_argument('--headless', action='store_true')
+parser.add_argument('--docker', action='store_true')
 parser.add_argument('--try_scroll', action='store_true')
 parser.add_argument('--full_net_log', action='store_true')
 parser.add_argument('--pre_visit', action='store_true')
@@ -58,6 +59,10 @@ def main():
         options.headless = True
         options.add_argument("window-size=1920,1080")
         stats["headless"] = True
+    if docker:
+        options.add_argument("no-sandbox")
+        options.add_argument("disable-dev-shm-usage")
+
     driver = webdriver.Chrome(executable_path=chrome_driver, desired_capabilities=d, options=options)
     time.sleep(timeout)
 
@@ -65,7 +70,10 @@ def main():
     stats["pre-visit"] = False
     if pre_visit:
         stats["pre-visit"] = True
+        log("Making Pre-First Visit")
         driver.get(url)
+        time.sleep(timeout)
+        
     log("Making First Visit to: {}".format(url))
     stats["target"] = url
     stats["start-time"] = time.time()
@@ -83,7 +91,7 @@ def main():
     make_screenshot("{}/all-first.png".format(screenshot_dir))
 
     # Click Banner
-    log("Clicking Banner")
+    log("Searching Banner")
     banner_data = click_banner(driver)
 
     if not "clicked_element" in banner_data:
@@ -97,6 +105,7 @@ def main():
                 if "clicked_element" in banner_data:
                     break
             except NoSuchFrameException:
+                driver.switch_to.default_content()
                 log("Error in switching to frame")
                 
     stats["has-scrolled"] = False
@@ -207,14 +216,17 @@ def click_banner(driver):
 
 
     for c in contents:
-        if c.text.lower().strip(" ✓›!\n") in accept_words_list:
-            candidate = c
-            banner_data["candidate_elements"].append({"id": c.id,
-                                                      "tag_name": c.tag_name,
-                                                      "text": c.text,
-                                                      "size": c.size,
-                                                      })
-            break
+        try:
+            if c.text.lower().strip(" ✓›!\n") in accept_words_list:
+                candidate = c
+                banner_data["candidate_elements"].append({"id": c.id,
+                                                          "tag_name": c.tag_name,
+                                                          "text": c.text,
+                                                          "size": c.size,
+                                                          })
+                break
+        except:
+            log("Exception in processing element: {}".format (c.id) )
             
     # Click the candidate
     if candidate is not None:
@@ -231,6 +243,7 @@ def click_banner(driver):
 
             candidate.click()
             banner_data["clicked_element"] = candidate.id
+            log("Clicked: {}".format (candidate.id) )
         except:
             log("Exception in candidate click")
     else:
@@ -257,5 +270,7 @@ if __name__ == "__main__":
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         log("Exception at line {}: {}".format(exc_tb.tb_lineno, e))
+        traceback.print_exception(exc_type, exc_obj, exc_tb)
         log("Quitting")
         driver.quit()
+        

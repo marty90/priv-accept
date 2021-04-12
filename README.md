@@ -29,7 +29,7 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
                     [--screenshot_dir SCREENSHOT_DIR] [--lang LANG]
                     [--timeout TIMEOUT] [--clear_cache] [--headless]
                     [--try_scroll] [--global_search] [--full_net_log]
-                    [--pre_visit]
+                    [--pre_visit] [--rum_speed_index]
 ```
 
 * `url`: the url to visit
@@ -44,7 +44,7 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 * `try_scroll`: try to scroll the page if no banner is found
 * `full_net_log`: store in the output file the details of the requests/responses
 * `pre_visit`: make all visits as "second visits", so with cache e open sockets
-
+* `rum_speed_index`: compute RUM Speed Index
 
 ### Output
 

@@ -29,10 +29,12 @@ parser.add_argument('--docker', action='store_true')
 parser.add_argument('--try_scroll', action='store_true')
 parser.add_argument('--full_net_log', action='store_true')
 parser.add_argument('--pre_visit', action='store_true')
+parser.add_argument('--rum_speed_index', action='store_true')
 globals().update(vars(parser.parse_args()))
 
 log_entries = []
 GLOBAL_SELECTOR = "a, button, div, span, form, p"
+RUM_SPEED_INDEX_FILE="rum-speedindex.js"
 stats = {}
 
 
@@ -81,6 +83,12 @@ def main():
     start_time=time.time()
     driver.get(url)
     end_time=time.time()
+    
+    if rum_speed_index:
+        stats["collect-rum-speed-index"] = True
+        rsi = driver.execute_script(open(RUM_SPEED_INDEX_FILE, "r").read() + "; return RUMSpeedIndex(); " )
+        stats["first-visit-rum-speed-index"] = rsi
+    
     log("First Visit Selenium time [s]: {}".format(end_time-start_time))
     stats["first-visit-selenium-time"] = end_time-start_time
     log("Landed to: {}".format(driver.current_url))
@@ -135,6 +143,10 @@ def main():
     start_time=time.time()
     driver.get(url)
     end_time=time.time()
+    if rum_speed_index:
+        rsi = driver.execute_script(open(RUM_SPEED_INDEX_FILE, "r").read() + "; return RUMSpeedIndex(); " )
+        stats["second-visit-rum-speed-index"] = rsi
+        
     log("Second Visit Selenium time [s]: {}".format(end_time-start_time))
     stats["second-visit-selenium-time"] = end_time-start_time
     time.sleep(timeout)

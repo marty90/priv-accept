@@ -75,6 +75,7 @@ def main():
         log("Making Pre-First Visit")
         driver.get(url)
         time.sleep(timeout)
+        get_data(driver)
         
     log("Making First Visit to: {}".format(url))
     stats["target"] = url
@@ -136,9 +137,7 @@ def main():
         stats["has-cleared-cache"] = True
     # Clean last page
     driver.get("about:blank")
-    _ = get_data(driver)
-    if pre_visit:
-        driver.get(url)
+    get_data(driver)
 
     start_time=time.time()
     driver.get(url)

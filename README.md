@@ -1,54 +1,56 @@
-## Cookie Accept
+## Cookie-Accept
 
-Accept automatically the Cookie Warnings to allow automated measurements on web tracking.
-It visits a URL and uses a heuristic to find the Cookie Banner and allow cookies.
+Accept automatically the Cookie Warnings to allow automated measurements of web tracking as real users experience.
+Cookie-Accept visits a URL and uses a heuristic to find the Cookie Banner and accept cookies.
 It is based on a set of keywords to find the right button/link.
 
 Given a website, the tool accomplishes these tasks:
 
-* Visits the website with a clean browser profile
-* Clicks on the Cookie Accept bar, if one is found
-* Re-visit the URL after the consent is given
+* Visits the website with a fresh browser profile
+* Clicks on the Cookie Accept button, if one is found
+* Re-visits the URL after the consent is given
+* Stores a rich log files containing metadata on the visits, including all URLs, installed cookies and performance metrics (e.g., OnLoad time)
 
 
 ### Prerequisites
 
-You need Python 3 with the `selenium` library.
+You need Python 3 with the `selenium` library. You also need Google Chrome and [chromedriver](https://chromedriver.chromium.org/) to allow Selenium using it.
 
-You also need Google Chrome and [chromedriver](https://chromedriver.chromium.org/) to allow Selenium using it.
+Cookie-Accept can also be built in a Docker image to allow parallel and isolated experiment. You can build the Docker image using the `Dockerfile` provided in this repo. The images extends the [BrowserTime](https://www.sitespeed.io/documentation/browsertime/) image to profit from the ready-to-use setup.
 
 
 ### Usage
 
-On a console
+Cookie-Accept runs via command line and accept the following arguments:
 
 ```
 cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
-                    [--selectors SELECTORS] [--accept_words ACCEPT_WORDS]
+                    [--accept_words ACCEPT_WORDS]
                     [--chrome_driver CHROME_DRIVER]
                     [--screenshot_dir SCREENSHOT_DIR] [--lang LANG]
                     [--timeout TIMEOUT] [--clear_cache] [--headless]
                     [--try_scroll] [--global_search] [--full_net_log]
                     [--pre_visit] [--rum_speed_index]
+                    
 ```
-
-* `url`: the url to visit
-* `outfile`: the output file with the stats in JSON
-* `accept_words`: a file with the expressions that indicate cookie acceptance
-* `chrome_driver`: the path to chrome_driver in your machine. By default, is searches on the local dir
-* `screenshot_dir`: where to save some useful screenshot
-* `lang`: the language to set. It can affect the Cookie Banner content
-* `timeout`: the timeout to wait for extra-traffic after the onLoad events
-* `clear_cache`: clear the cache after the first visit
-* `headless`: run Chrome in headless mode. Note: in headless mode, the `clear_cache` cannot clean the DNS and socket cache due to limitations of Chrome
-* `try_scroll`: try to scroll the page if no banner is found
-* `full_net_log`: store in the output file the details of the requests/responses
-* `pre_visit`: make all visits as "second visits", so with cache e open sockets
-* `rum_speed_index`: compute RUM Speed Index
+* `-h`: print the help
+* `--url URL`: the url to visit
+* `--outfile OUTFILE`: the output file with the metadata in JSON
+* `--accept_words ACCEPT_WORDS`: a file with the expressions that indicate cookie acceptance
+* `--chrome_driver CHROME_DRIVER`: the path to chrome_driver in your machine. By default, is searches on the current directory
+* `--screenshot_dir SCREENSHOT_DIR`: where to save the screenshots of the visits and clicked element
+* `--lang LANG`: the language to set. It can affect the Cookie Banner content
+* `--timeout TIMEOUT`: the timeout to wait for extra-traffic after the onLoad events
+* `--clear_cache`: clear the cache after the first visit
+* `--headless`: run Chrome in headless mode. Note: in headless mode, the `clear_cache` cannot clean the DNS and socket cache due to limitations of Chrome
+* `--try_scroll`: try to scroll the page if no banner is found
+* `--full_net_log`: store in the output file the details of the requests/responses
+* `--pre_visit`: make all visits as "second visits", so with warm cache and open sockets
+* `--rum_speed_index`: compute the [RUM Speed Index](https://github.com/WPO-Foundation/RUM-SpeedIndex)
 
 ### Output
 
-The main output is a JSON file with various statistics, including all the HTTP requests fired at each stage, the cookies that are installed and some information about the found banners.
+The main output is a JSON file with various statistics, including all the HTTP requests fired at each stage, the cookies that are installed and some information about the found banners. You can can also find performance metrics such as OnLoad time and DOMLoaded time. It can compute the RUM Speed Index. Notice that performance metrics depend on whether you fisit the page with a fresh or non-fresh browser profile.
 
 Moreover, it stores screenshots of the page and of the cookie banners found as well as the clicked element.
 

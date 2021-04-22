@@ -1,10 +1,10 @@
 # Build with:
-# docker build . --tag martino90/cookie-accept
+# docker build . --tag <user>/cookie-accept
 # Push with:
-# docker push martino90/cookie-accept
+# docker push <user>/cookie-accept
 
 FROM sitespeedio/browsertime:11.6.3
-LABEL maintainer="Martino Trevisan"
+LABEL maintainer="Cookie Accept Team"
 
 RUN pip3 install selenium
 

@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from datetime import datetime
 from selenium import webdriver
 import traceback
+import random
 import os
 import sys
 import json
@@ -30,6 +31,9 @@ parser.add_argument('--try_scroll', action='store_true')
 parser.add_argument('--full_net_log', action='store_true')
 parser.add_argument('--pre_visit', action='store_true')
 parser.add_argument('--rum_speed_index', action='store_true')
+parser.add_argument('--visit_internals', action='store_true')
+parser.add_argument('--num_internal', type=int, default=5)
+
 globals().update(vars(parser.parse_args()))
 
 log_entries = []
@@ -153,9 +157,30 @@ def main():
     after_data = get_data(driver)
     make_screenshot("{}/all-second.png".format(screenshot_dir))
 
+    internal_data = None
+    if visit_internals:
+        log("Visiting Internal Pages")
+        internal_urls = set()
+        eles = driver.find_elements_by_xpath("//*[@href]")
+        for elem in eles:
+            url = elem.get_attribute('href').split("#")[0]
+            if url.startswith(driver.current_url) and url!=driver.current_url:
+                internal_urls.add(url)
+        if len(internal_urls) >= num_internal:
+            internal_urls_to_visit = random.sample(internal_urls, num_internal)
+        else:
+            log("Warning, only {} internal URLs to visit".format(len(internal_urls)) )
+            internal_urls_to_visit = internal_urls
+            
+        for internal_url in internal_urls_to_visit:
+            log("Visiting internal URL: {}".format(internal_url ))
+            driver.get(internal_url)
+            time.sleep(timeout/num_internal)
+        internal_data = get_data(driver)    
+
     # Save
     data = {"first": before_data, "click": click_data, "second": after_data, "banner_data": banner_data,
-            "log": log_entries, "stats": stats}
+            "log": log_entries, "stats": stats, "internal":internal_data}
     json.dump(data, open(outfile, "w"), indent=4)
 
     # Quit

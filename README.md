@@ -31,6 +31,7 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
                     [--timeout TIMEOUT] [--clear_cache] [--headless]
                     [--try_scroll] [--global_search] [--full_net_log]
                     [--pre_visit] [--rum_speed_index]
+                    [--visit_internals] [--num_internal]
                     
 ```
 * `-h`: print the help
@@ -47,6 +48,8 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 * `--full_net_log`: store in the output file the details of the requests/responses
 * `--pre_visit`: make all visits as "second visits", so with warm cache and open sockets
 * `--rum_speed_index`: compute the [RUM Speed Index](https://github.com/WPO-Foundation/RUM-SpeedIndex)
+* `--visit_internals`: also visit internal pages, randomnly choosen
+* `--num_internal`: number of internal pages to visit, if `--visit_internals`
 
 ### Output
 

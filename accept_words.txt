@@ -24,6 +24,7 @@ accepter tous les cookies
 accetta
 accetta cookie
 accetta e chiudi
+accetta e continua
 accetta e continua la navigazione
 accetta e procedi
 accetta i cookie
@@ -62,8 +63,12 @@ aceptar cookies
 aceptar todas
 aceptar todas las cookies
 aceptar todas y continuar
+aceptar todo
+aceptar todo / cerrar
+aceptar todo y cerrar
 aceptar y cerrar
 aceptar y continuar
+aceptar y continuar navegando
 aceptar y seguir navegando
 acepto
 acepto las cookies
@@ -133,6 +138,7 @@ cookies zulassen
 cогласен
 d'accord
 d'accordo
+d'acord
 d'acord i tancar
 da, accept
 dai il consenso e accedi al sito
@@ -214,14 +220,18 @@ permetti cookies
 permetto
 permetto cookie
 permetto cookies
+permitir todas las cookies
 prihvati i zatvori
 prosegui
 prosseguir
 przejdź dalej
 save and close
+seguir navegando
 select all
 si
 si, accetto
+si, acepto
+soy mayor de edad y acepto las cookies
 sì
 sì, acconsento
 sì, sono d'accordo
@@ -234,6 +244,7 @@ tout autorizer
 va bene
 vicino
 yes agreed
+yes, continue
 yes, i accept
 yes, i agree
 yes, i'm happy

@@ -276,10 +276,11 @@ def click_banner(driver):
                     candidate.screenshot("{}/clicked_element.png".format(screenshot_dir))
                 except Exception as e:
                     log("Exception in making screenshot: {}".format(e))
-
+            log("Clicking text: {}".format (candidate.text.lower().strip(" ✓›!\n")) )
             candidate.click()
             banner_data["clicked_element"] = candidate.id
             log("Clicked: {}".format (candidate.id) )
+            
         except:
             log("Exception in candidate click")
     else:

@@ -164,7 +164,10 @@ def main():
         eles = driver.find_elements_by_xpath("//*[@href]")
         for elem in eles:
             url = elem.get_attribute('href').split("#")[0]
-            if url.startswith(driver.current_url) and url!=driver.current_url:
+            #if url.startswith(driver.current_url) and url!=driver.current_url:
+            domain_url = url.split("/")[2] if len (url.split("/")) >=3 else None
+            landing_domain = driver.current_url.split("/")[2] if len (driver.current_url.split("/")) >=3 else None
+            if domain_url == landing_domain and url!=driver.current_url:
                 internal_urls.add(url)
         if len(internal_urls) >= num_internal:
             internal_urls_to_visit = random.sample(internal_urls, num_internal)

@@ -241,6 +241,28 @@ def make_screenshot(path):
             log("Exception in making screenshot: {}".format(e))
 
 
+def get_signature(element):
+
+    def props_to_dict(e):
+        props = {"tag": e.tag_name }
+        for attr in e.get_property('attributes'):
+            props[attr['name']] = attr['value']
+        return props
+        
+    signature = []
+    current = element
+    while True:
+        signature.insert(0, props_to_dict(current))
+        
+        if current.tag_name == "html":
+            break
+        current = current.find_element_by_xpath('..')
+        if current == None:
+            break
+        
+    return signature   
+    
+
 def click_banner(driver):
 
     accept_words_list = set()
@@ -262,6 +284,7 @@ def click_banner(driver):
                                                           "tag_name": c.tag_name,
                                                           "text": c.text,
                                                           "size": c.size,
+                                                          "signature": get_signature(c),
                                                           })
                 break
         except:

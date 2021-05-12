@@ -45,6 +45,7 @@ cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 * `--clear_cache`: clear the cache after the first visit
 * `--headless`: run Chrome in headless mode. Note: in headless mode, the `clear_cache` cannot clean the DNS and socket cache due to limitations of Chrome
 * `--try_scroll`: try to scroll the page if no banner is found
+* `--user_agent`: override Chrome User Agent
 * `--full_net_log`: store in the output file the details of the requests/responses
 * `--pre_visit`: make all visits as "second visits", so with warm cache and open sockets
 * `--rum_speed_index`: compute the [RUM Speed Index](https://github.com/WPO-Foundation/RUM-SpeedIndex)

@@ -27,6 +27,7 @@ parser.add_argument('--timeout', type=int, default=5)
 parser.add_argument('--clear_cache', action='store_true')
 parser.add_argument('--headless', action='store_true')
 parser.add_argument('--docker', action='store_true')
+parser.add_argument('--user_agent', type=str, default=None)
 parser.add_argument('--try_scroll', action='store_true')
 parser.add_argument('--full_net_log', action='store_true')
 parser.add_argument('--pre_visit', action='store_true')
@@ -39,13 +40,14 @@ globals().update(vars(parser.parse_args()))
 log_entries = []
 GLOBAL_SELECTOR = "a, button, div, span, form, p"
 RUM_SPEED_INDEX_FILE="rum-speedindex.js"
-USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
+USER_AGENT_DEFAULT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
 stats = {}
 
 
 def main():
     global driver
     global url
+    global USER_AGENT_DEFAULT
 
     # Fix Url
     if not url.startswith("http://") and not url.startswith("https://"):
@@ -59,14 +61,23 @@ def main():
     options = Options()
     stats["lang"] = "default"
     stats["headless"] = False
+    
+    if user_agent is not None:
+        USER_AGENT_DEFAULT = user_agent
+        
     if lang is not None:
         stats["lang"] = lang
         options.add_experimental_option('prefs', {'intl.accept_languages': lang})
+        
     if headless:
         options.headless = True
         options.add_argument("window-size=1920,1080")
-        options.add_argument("user-agent={}".format(USER_AGENT))
+        options.add_argument("user-agent={}".format(USER_AGENT_DEFAULT))
         stats["headless"] = True
+        
+    if not headless and user_agent is not None:
+        options.add_argument("user-agent={}".format(USER_AGENT_DEFAULT))
+        
     if docker:
         options.add_argument("no-sandbox")
         options.add_argument("disable-dev-shm-usage")

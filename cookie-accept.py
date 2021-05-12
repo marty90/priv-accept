@@ -39,6 +39,7 @@ globals().update(vars(parser.parse_args()))
 log_entries = []
 GLOBAL_SELECTOR = "a, button, div, span, form, p"
 RUM_SPEED_INDEX_FILE="rum-speedindex.js"
+USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
 stats = {}
 
 
@@ -64,6 +65,7 @@ def main():
     if headless:
         options.headless = True
         options.add_argument("window-size=1920,1080")
+        options.add_argument("user-agent={}".format(USER_AGENT))
         stats["headless"] = True
     if docker:
         options.add_argument("no-sandbox")

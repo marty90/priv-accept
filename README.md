@@ -1,13 +1,13 @@
-## Cookie-Accept
+## Priv-Accept
 
-Accept automatically the Cookie Warnings to allow automated measurements of web tracking as real users experience.
-Cookie-Accept visits a URL and uses a heuristic to find the Cookie Banner and accept cookies.
+Accept automatically the Privacy Policies to allow automated measurements of the web as real users experience.
+Priv-Accept visits a URL and uses a heuristic to find and click the accept button on privacy policies.
 It is based on a set of keywords to find the right button/link.
 
 Given a website, the tool accomplishes these tasks:
 
 * Visits the website with a fresh browser profile
-* Clicks on the Cookie Accept button, if one is found
+* Clicks on the Accept button, if one is found
 * Re-visits the URL after the consent is given
 * Stores a rich log files containing metadata on the visits, including all URLs, installed cookies and performance metrics (e.g., OnLoad time)
 
@@ -16,15 +16,15 @@ Given a website, the tool accomplishes these tasks:
 
 You need Python 3 with the `selenium` library. You also need Google Chrome and [chromedriver](https://chromedriver.chromium.org/) to allow Selenium using it.
 
-Cookie-Accept can also be built in a Docker image to allow parallel and isolated experiment. You can build the Docker image using the `Dockerfile` provided in this repo. The images extends the [BrowserTime](https://www.sitespeed.io/documentation/browsertime/) image to profit from the ready-to-use setup.
+Priv-Accept can also be built in a Docker image to allow parallel and isolated experiment. You can build the Docker image using the `Dockerfile` provided in this repo. The images extends the [BrowserTime](https://www.sitespeed.io/documentation/browsertime/) image to profit from the ready-to-use setup.
 
 
 ### Usage
 
-Cookie-Accept runs via command line and accept the following arguments:
+Priv-Accept runs via command line and accept the following arguments:
 
 ```
-cookie-accept.py    [-h] [--url URL] [--outfile OUTFILE]
+priv-accept.py    [-h] [--url URL] [--outfile OUTFILE]
                     [--accept_words ACCEPT_WORDS]
                     [--chrome_driver CHROME_DRIVER]
                     [--screenshot_dir SCREENSHOT_DIR] [--lang LANG]

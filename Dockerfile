@@ -1,17 +1,17 @@
 # Build with:
-# docker build . --tag <user>/cookie-accept
+# docker build . --tag <user>/priv-accept
 # Push with:
-# docker push <user>/cookie-accept
+# docker push <user>/priv-accept
 
 FROM sitespeedio/browsertime:11.6.3
-LABEL maintainer="Cookie Accept Team"
+LABEL maintainer="Priv Accept Team"
 
 RUN pip3 install selenium
 
-RUN mkdir /opt/cookie-accept
-ADD cookie-accept.py /opt/cookie-accept
+RUN mkdir /opt/priv-accept
+ADD priv-accept.py /opt/priv-accept
 ADD accept_words.txt /root/
 ADD rum-speedindex.js /root/
 
 WORKDIR /root/
-ENTRYPOINT ["/opt/cookie-accept/cookie-accept.py", "--chrome_driver", "/usr/src/app/node_modules/@sitespeed.io/chromedriver/vendor/chromedriver", "--headless", "--docker"]
+ENTRYPOINT ["/opt/priv-accept/priv-accept.py", "--chrome_driver", "/usr/src/app/node_modules/@sitespeed.io/chromedriver/vendor/chromedriver", "--headless", "--docker"]

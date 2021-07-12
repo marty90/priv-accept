@@ -31,6 +31,8 @@ parser.add_argument('--user_agent', type=str, default=None)
 parser.add_argument('--try_scroll', action='store_true')
 parser.add_argument('--full_net_log', action='store_true')
 parser.add_argument('--pre_visit', action='store_true')
+parser.add_argument('--chrome_extra_option', type=str, action='append', default=[])
+parser.add_argument('--network_conditions', type=str, default=None)
 parser.add_argument('--rum_speed_index', action='store_true')
 parser.add_argument('--visit_internals', action='store_true')
 parser.add_argument('--num_internal', type=int, default=5)
@@ -82,8 +84,19 @@ def main():
         options.add_argument("no-sandbox")
         options.add_argument("disable-dev-shm-usage")
 
+    for option in chrome_extra_option:
+        options.add_argument(option)
+
     driver = webdriver.Chrome(executable_path=chrome_driver, desired_capabilities=d, options=options)
     time.sleep(timeout)
+
+    # Set network conditions
+    if network_conditions:
+        latency, download, upload = [int(e) for e in network_conditions.split(":")]
+        driver.execute_cdp_cmd('Network.emulateNetworkConditions', {"latency": latency,
+                                                                    "downloadThroughput": download,
+                                                                    "uploadThroughput": upload,
+                                                                    "offline": False})
 
     #  Go to the page, first visit
     stats["pre-visit"] = False

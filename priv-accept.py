@@ -36,6 +36,7 @@ parser.add_argument('--network_conditions', type=str, default=None)
 parser.add_argument('--rum_speed_index', action='store_true')
 parser.add_argument('--visit_internals', action='store_true')
 parser.add_argument('--num_internal', type=int, default=5)
+parser.add_argument('--xvfb', action='store_true')
 
 globals().update(vars(parser.parse_args()))
 
@@ -86,6 +87,11 @@ def main():
 
     for option in chrome_extra_option:
         options.add_argument(option)
+
+    if xvfb:
+        from pyvirtualdisplay import Display
+        display = Display(visible=0, size=(1920, 1080))
+        display.start()
 
     driver = webdriver.Chrome(executable_path=chrome_driver, desired_capabilities=d, options=options)
     time.sleep(timeout)
@@ -213,6 +219,9 @@ def main():
     json.dump(data, open(outfile, "w"), indent=4)
 
     # Quit
+    if xvfb:
+        display.stop()
+
     driver.quit()
     log("All Done")
 

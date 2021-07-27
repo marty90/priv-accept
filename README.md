@@ -16,6 +16,8 @@ Given a website, the tool accomplishes these tasks:
 
 You need Python 3 with the `selenium` library. You also need Google Chrome and [chromedriver](https://chromedriver.chromium.org/) to allow Selenium using it.
 
+For using a Virtual Display, you need the `pyvirtualdisplay` Python module and xvfb installed on the machine.
+
 Priv-Accept can also be built in a Docker image to allow parallel and isolated experiment. You can build the Docker image using the `Dockerfile` provided in this repo. The images extends the [BrowserTime](https://www.sitespeed.io/documentation/browsertime/) image to profit from the ready-to-use setup.
 
 
@@ -33,6 +35,7 @@ priv-accept.py    [-h] [--url URL] [--outfile OUTFILE]
                     [--pre_visit] [--rum_speed_index]
                     [--visit_internals] [--num_internal]
                     [--chrome_extra_option] [--network_conditions]
+                    [--xvfb]
                     
 ```
 * `-h`: print the help
@@ -54,6 +57,7 @@ priv-accept.py    [-h] [--url URL] [--outfile OUTFILE]
 * `--num_internal`: number of internal pages to visit, if `--visit_internals`
 * `--chrome_extra_option`: add custom options to the Chrome command line. Can be repeated multiple times.
 * `--network_conditions`: use Chrome throttling to emulate network conditions. Argument must be `latency_ms:download_bps:upload_bps`. Note: Chrome throttling is very synthetic.
+* `--xvfb`: Use a virtual display with `xvfb`, .
 
 ### Output
 

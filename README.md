@@ -66,5 +66,7 @@ The main output is a JSON file with various statistics, including all the HTTP r
 Moreover, it stores screenshots of the page and of the cookie banners found as well as the clicked element.
 
 
+### Open Data
 
+To allow reproducing our results, in the `open-data` directory, we provide the data, the plots and the code used in the paper.
 

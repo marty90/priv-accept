@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchFrameException
 import argparse
@@ -20,7 +21,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--url', type=str, default='https://www.theguardian.com/')
 parser.add_argument('--outfile', type=str, default='output.json')
 parser.add_argument('--accept_words', type=str, default="accept_words.txt")
-parser.add_argument('--chrome_driver', type=str, default="./chromedriver")
+# Selenium v4 no longer needs this argument
+parser.add_argument('--chrome_driver', type=str, default=".\chromedriver")
 parser.add_argument('--screenshot_dir', type=str, default=None)
 parser.add_argument('--lang', type=str, default=None)
 parser.add_argument('--timeout', type=int, default=5)
@@ -58,10 +60,11 @@ def main():
 
     # Enable browser logging and start driver
     log("Starting Driver")
-    d = DesiredCapabilities.CHROME
-    # d['loggingPrefs'] = { 'performance':'ALL' }
-    d['goog:loggingPrefs'] = {'performance': 'ALL'}
-    options = Options()
+    # No needed
+    # d = DesiredCapabilities.CHROME
+    # d['goog:loggingPrefs'] = {'performance': 'ALL'}
+    options = webdriver.ChromeOptions()
+    options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
     stats["lang"] = "default"
     stats["headless"] = False
     
@@ -92,8 +95,9 @@ def main():
         from pyvirtualdisplay import Display
         display = Display(visible=0, size=(1920, 1080))
         display.start()
-
-    driver = webdriver.Chrome(executable_path=chrome_driver, desired_capabilities=d, options=options)
+    # print(chrome_driver)
+    # service = webdriver.ChromeService()
+    driver = webdriver.Chrome(options=options)
     time.sleep(timeout)
 
     # Set network conditions

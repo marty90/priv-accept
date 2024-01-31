@@ -8,6 +8,7 @@ import argparse
 from urllib.parse import urlparse
 from datetime import datetime
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 import traceback
 import random
 import os
@@ -44,6 +45,7 @@ globals().update(vars(parser.parse_args()))
 
 log_entries = []
 GLOBAL_SELECTOR = "a, button, div, span, form, p"
+# GLOBAL_SELECTOR = "p"
 RUM_SPEED_INDEX_FILE="rum-speedindex.js"
 USER_AGENT_DEFAULT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
 stats = {}
@@ -95,7 +97,6 @@ def main():
         from pyvirtualdisplay import Display
         display = Display(visible=0, size=(1920, 1080))
         display.start()
-    # print(chrome_driver)
     # service = webdriver.ChromeService()
     driver = webdriver.Chrome(options=options)
     time.sleep(timeout)
@@ -144,7 +145,8 @@ def main():
     banner_data = click_banner(driver)
 
     if not "clicked_element" in banner_data:
-        iframe_contents = driver.find_elements_by_css_selector("iframe")
+        # v4 change
+        iframe_contents = driver.find_elements(By.CSS_SELECTOR, "iframe")
         for content in iframe_contents:
             log("Switching to frame: {}".format(content.id) )
             try:
@@ -197,7 +199,8 @@ def main():
     if visit_internals:
         log("Visiting Internal Pages")
         internal_urls = set()
-        eles = driver.find_elements_by_xpath("//*[@href]")
+        # v4 change
+        eles = driver.find_elements(By.XPATH, "//*[@href]")
         for elem in eles:
             url = elem.get_attribute('href').split("#")[0]
             #if url.startswith(driver.current_url) and url!=driver.current_url:
@@ -305,13 +308,14 @@ def get_signature(element):
 def click_banner(driver):
 
     accept_words_list = set()
-    for w in open(accept_words, "r").read().splitlines():
+    for w in open(accept_words, "r",  encoding="utf-8").read().splitlines():
         if not w.startswith("#") and not w == "":
             accept_words_list.add(w)
 
     banner_data = {"matched_containers": [], "candidate_elements": []}
-    contents = driver.find_elements_by_css_selector(GLOBAL_SELECTOR)
-
+    # v4 change
+    contents = driver.find_elements(By.CSS_SELECTOR, GLOBAL_SELECTOR)
+    print(contents)
     candidate = None
 
 

@@ -315,7 +315,7 @@ def click_banner(driver):
     banner_data = {"matched_containers": [], "candidate_elements": []}
     # v4 change
     contents = driver.find_elements(By.CSS_SELECTOR, GLOBAL_SELECTOR)
-    print(contents)
+    # print(contents)
     candidate = None
 
 

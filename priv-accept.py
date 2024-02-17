@@ -19,7 +19,7 @@ import re
 
 # Parse Vars
 parser = argparse.ArgumentParser()
-parser.add_argument('--url', type=str, default='https://www.theguardian.com/')
+parser.add_argument('--url', type=str, default='http://uni-frankfurt.de')
 parser.add_argument('--outfile', type=str, default='output.json')
 parser.add_argument('--accept_words', type=str, default="accept_words.txt")
 # Selenium v4 no longer needs this argument

@@ -19,7 +19,7 @@ import re
 
 # Parse Vars
 parser = argparse.ArgumentParser()
-parser.add_argument('--url', type=str, default='https://www.theguardian.com/')
+parser.add_argument('--url', type=str, default='onet.pl')
 parser.add_argument('--outfile', type=str, default='output.json')
 parser.add_argument('--accept_words', type=str, default="accept_words.txt")
 # Selenium v4 no longer needs this argument
@@ -40,6 +40,7 @@ parser.add_argument('--rum_speed_index', action='store_true')
 parser.add_argument('--visit_internals', action='store_true')
 parser.add_argument('--num_internal', type=int, default=5)
 parser.add_argument('--xvfb', action='store_true')
+
 
 globals().update(vars(parser.parse_args()))
 
@@ -68,6 +69,16 @@ def main():
     options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
     stats["lang"] = "default"
     stats["headless"] = False
+    # Added for docker
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-infobars")
+    options.add_argument("--start-maximized")
+    options.add_argument("--disable-notifications")
+    # # have to have headless to run in docker
+    # options.add_argument('--headless')
+    # options.add_argument("no-sandbox")
+    options.add_argument('--disable-dev-shm-usage')
     
     if user_agent is not None:
         USER_AGENT_DEFAULT = user_agent

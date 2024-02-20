@@ -60,10 +60,11 @@ def read_files_in_folder(output_folder_path):
     #                   'cookie_first', 'cookie_click', 'cookie_internal','domains_first','domains_click'])
     data = []
     for filename in os.listdir(output_folder_path):
-        file_path = os.path.join(output_folder_path, filename)
-        if os.path.isfile(file_path):
-            parse_row = parse_file(file_path)
-            data.append(parse_row)
+        if filename.endswith('.json'):
+            file_path = os.path.join(output_folder_path, filename)
+            if os.path.isfile(file_path):
+                parse_row = parse_file(file_path)
+                data.append(parse_row)
 
     return pd.DataFrame(data)
 
@@ -71,12 +72,11 @@ def read_files_in_folder(output_folder_path):
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python parse.py <output_folder_path>")
-        sys.exit(1)
-
-    output_folder_path = sys.argv[1]
-    df = read_files_in_folder(output_folder_path)
+    # if len(sys.argv) != 2:
+    #     print("Usage: python parse.py <output_folder_path>")
+    #     sys.exit(1)
+    # output_folder_path = sys.argv[1]
+    df = read_files_in_folder("./")
     if not df.empty:
         csv_file_name = "output.csv"
         df.to_csv("output.csv", index=False)

@@ -27,12 +27,19 @@ RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
 # Copy the current directory contents into the container
 RUN mkdir /opt/priv-accept
-ADD priv-accept.py /opt/priv-accept
+# make host/output directory to store output json files
+RUN mkdir /opt/priv-accept/output
+# map from local chunks folder to container
+RUN mkdir /opt/priv-accept/url_chunks
+
+ADD priv-accept.py /opt/priv-accept/
+ADD run_priv.sh /opt/priv-accept/
 ADD accept_words.txt /root/
 ADD urls.txt /root/
 ADD rum-speedindex.js /root/
 ADD parse.py /root/
-ADD run_priv.sh /opt/priv-accept
+
+RUN chmod +x /opt/priv-accept/run_priv.sh
 
 RUN pip install selenium pandas
 
@@ -41,8 +48,8 @@ RUN pip install selenium pandas
 EXPOSE 80
 
 
-# Run run_priv.sh when the container launches
-CMD xvfb-run --server-args="-screen 0 1900x1200x24" /opt/priv-accept/run_priv.sh urls.txt
+# Run docker container indefinitely-- to run given command
+CMD tail -f /dev/null
 
 # Run priv-accept and follow with the output.csv parse.py
 # CMD xvfb-run --server-args="-screen 0 1900x1200x24" /opt/priv-accept/run_priv.sh urls.txt && python ./parse.py

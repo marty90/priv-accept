@@ -75,10 +75,6 @@ def main():
     options.add_argument("--disable-infobars")
     options.add_argument("--start-maximized")
     options.add_argument("--disable-notifications")
-    # # have to have headless to run in docker
-    # options.add_argument('--headless')
-    # options.add_argument("no-sandbox")
-    options.add_argument('--disable-dev-shm-usage')
     
     if user_agent is not None:
         USER_AGENT_DEFAULT = user_agent
@@ -97,6 +93,7 @@ def main():
         options.add_argument("user-agent={}".format(USER_AGENT_DEFAULT))
         
     if docker:
+        options.add_argument('--headless')
         options.add_argument("no-sandbox")
         options.add_argument("disable-dev-shm-usage")
 
@@ -219,7 +216,7 @@ def main():
             if domain_url == landing_domain and url!=driver.current_url:
                 internal_urls.add(url)
         if len(internal_urls) >= num_internal:
-            internal_urls_to_visit = random.sample(internal_urls, num_internal)
+            internal_urls_to_visit = random.sample(list(internal_urls), num_internal)
         else:
             log("Warning, only {} internal URLs to visit".format(len(internal_urls)) )
             internal_urls_to_visit = internal_urls
